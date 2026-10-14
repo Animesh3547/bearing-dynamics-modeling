@@ -1,0 +1,19 @@
+
+# Python / Virtual Environments
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+
+# Documents & Reports
+*.pdf
+
+# IDEs & Editors
+.vscode/
+.idea/
+
+# OS Specific
+.DS_Store
+Thumbs.db
