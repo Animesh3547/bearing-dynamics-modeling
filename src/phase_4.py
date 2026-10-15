@@ -72,12 +72,20 @@ v_yr_final = solution.y[9]
 a_yr_final = (1/m_r) * (-c_r*(v_yr_final - v_yo_final) - k_r*(y_r_final - y_o_final))
 
 # 6. Plotting
+# Create a mask to filter out the first 0.1 seconds of transient data
+mask = time > 0.1
+time_steady = time[mask]
+a_yr_steady = a_yr_final[mask]
+
+# Plot only the steady-state data so the Y-axis scales correctly
 plt.figure(figsize=(10, 4))
-plt.plot(time, a_yr_final, color='teal', linewidth=0.8)
+plt.plot(time_steady, a_yr_steady, color='teal', linewidth=0.8)
 plt.title('Phase 4: Healthy 5-DOF Bearing Acceleration (Varying Compliance)')
 plt.xlabel('Time (seconds)')
 plt.ylabel('Sensor Acceleration (m/s^2)')
 plt.grid(True)
-plt.xlim(0.1, 0.5) # Skip initial drop-in transient
-plt.savefig('healthy_bearing_5dof.png', dpi=300, bbox_inches='tight')
+plt.xlim(0.1, 0.5)
+
+# Save and show
+plt.savefig('healthy_bearing_5dof_fixed.png', dpi=300, bbox_inches='tight')
 plt.show()
