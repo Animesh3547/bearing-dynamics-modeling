@@ -1,10 +1,10 @@
-# Physics-Based Bearing Dynamics & Digital Twin Foundation
+# Physics-Based Bearing Dynamics and Digital Twin Foundation
 
-An engineering and research repository dedicated to the mathematical modeling, numerical simulation, and dynamic analysis of rolling element bearings. This project builds high-fidelity lumped-parameter dynamic models from first principles—bridging classical mechanical vibration theory with modern **Digital Twin (DT)**, **Prognostics and Health Management (PHM)**, and **Condition-Based Maintenance (CBM)** frameworks.
+An engineering and research repository dedicated to the mathematical modeling, numerical simulation, and dynamic analysis of rolling element bearings. This project builds high-fidelity lumped-parameter dynamic models from first principles - bridging classical mechanical vibration theory with modern **Digital Twin (DT)**, **Prognostics and Health Management (PHM)**, and **Condition-Based Maintenance (CBM)** frameworks.
 
 ---
 
-## 🎯 Research Objective
+##  Research Objective
 
 Data-driven fault diagnosis and predictive maintenance in rotating machinery are frequently bottlenecked by the scarcity of labeled failure data in critical operating environments. The objective of this repository is to establish a rigorous, physics-informed simulation engine capable of generating synthetic vibration responses under varying kinematic and dynamic conditions. 
 
@@ -12,17 +12,17 @@ By decomposing complex bearing assemblies into modular Ordinary Differential Equ
 
 ---
 
-## 🏗️ Modular Modeling Progression
+##  Modular Modeling Progression
 
 The repository follows a strict bottom-up verification methodology, validating numerical solvers and physical constraints at each level of complexity before scaling:
 
 * **Phase 1: 1-DOF Linear Vibration Baselines**
   * Formulation of second-order governing equations ($m\ddot{x} + c\dot{x} + kx = F(t)$) into first-order state-space representations ($\dot{\mathbf{X}} = \mathbf{A}\mathbf{X} + \mathbf{B}\mathbf{U}$).
   * Verification of numerical integration across undamped, underdamped, and harmonically forced regimes.
-* **Phase 2: 1-DOF Non-Linear Hertzian Contact & Slack Zone Logic**
+* **Phase 2: 1-DOF Non-Linear Hertzian Contact and Slack Zone Logic**
   * Replacement of linear restoring forces with unilateral, non-linear Hertzian contact mechanics ($F_c = K \cdot \max(0, \delta)^p$).
   * Simulation of free-fall impact, contact loss (clearance/slack zones), and stiff numerical integration (`Radau`).
-* **Phase 3: Vectorized Cage & Roller Kinematics**
+* **Phase 3: Vectorized Cage and Roller Kinematics**
   * High-speed, vectorized tracking of orbital angular positions ($\theta_j(t)$) across $n_b$ rolling elements as a function of shaft speed ($\omega_s$), pitch geometry ($D$), roller diameter ($d$), and cage velocity ($\omega_c$).
 * **Phase 4: 5-DOF Healthy Bearing Dynamic Model**
   * Full 10-state coupled non-linear simulation tracking 2D translational dynamics of the inner race/shaft ($x_i, y_i$), outer race/housing ($x_o, y_o$), and vertical transducer/resonator response ($y_r$).
@@ -30,11 +30,26 @@ The repository follows a strict bottom-up verification methodology, validating n
 
 ---
 
-## 📐 Core Mathematical Formulation
+##  Core Mathematical Formulation
 
-Because unilateral contact constraints and fractional Hertzian exponents break linear matrix proportionality, the 5-DOF assembly is solved as a continuous non-linear vector function $\dot{\mathbf{X}} = \mathbf{f}(t, \mathbf{X})$ over a 10-dimensional state vector:
+The 10 state variables for the 5 degrees of freedom:
 
-$$\mathbf{X} = \begin{bmatrix} x_i & \dot{x}_i & y_i & \dot{y}_i & x_o & \dot{x}_o & y_o & \dot{y}_o & y_r & \dot{y}_r \end{bmatrix}^T$$
+```text
+State Vector X (10 States):
+  X[0] = x_i   (Inner race horizontal displacement, m)
+  X[1] = ẋ_i   (Inner race horizontal velocity, m/s)
+  X[2] = y_i   (Inner race vertical displacement, m)
+  X[3] = ẏ_i   (Inner race vertical velocity, m/s)
+  X[4] = x_o   (Outer race horizontal displacement, m)
+  X[5] = ẋ_o   (Outer race horizontal velocity, m/s)
+  X[6] = y_o   (Outer race vertical displacement, m)
+  X[7] = ẏ_o   (Outer race vertical velocity, m/s)
+  X[8] = y_r   (Sensor resonator vertical displacement, m)
+  X[9] = ẏ_r   (Sensor resonator vertical velocity, m/s)
+```
+
+Vector representation:
+`X = [x_i, ẋ_i, y_i, ẏ_i, x_o, ẋ_o, y_o, ẏ_o, y_r, ẏ_r]^T`
 
 At each time step, the instantaneous radial compression $\delta_j$ of the $j$-th rolling element is evaluated via:
 
@@ -46,7 +61,7 @@ $$F_x = \sum_{j=1}^{n_b} K_c \left[\max(0, \delta_j)\right]^p \cos\theta_j, \qua
 
 ---
 
-## ⚙️ Environment & Execution
+##  Environment and Execution
 
 ### Prerequisites
 The simulation pipeline is built in Python using scientific computing libraries. To set up an isolated virtual environment and install dependencies:
