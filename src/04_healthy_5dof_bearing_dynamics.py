@@ -71,6 +71,15 @@ v_yr_final = solution.y[9]
 # Reconstruct acceleration from the returned states
 a_yr_final = (1/m_r) * (-c_r*(v_yr_final - v_yo_final) - k_r*(y_r_final - y_o_final))
 
+#  Data Storage: Save as a compressed NumPy archive
+# This packages both the time and acceleration arrays into a single fast-loading file
+np.savez_compressed(
+    'healthy_baseline_signal.npz', 
+    time=time, 
+    acceleration=a_yr_final
+)
+print("Steady-state signal saved successfully as 'healthy_baseline_signal.npz'")
+
 # 6. Plotting
 # Create a mask to filter out the first 0.1 seconds of transient data
 mask = time > 0.1
